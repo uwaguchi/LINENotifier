@@ -13,13 +13,14 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.util.Map;
 
-public class LINENotifier implements RequestHandler<String, String> {
+public class LINENotifier implements RequestHandler<Map<String,Object>, String> {
     private static final String ep = "https://notify-api.line.me/api/notify";
 
     @Override
-    public String handleRequest(String type, Context context){
-        notify("テストメッセージだよ");
+    public String handleRequest(Map<String,Object> input, Context context){
+        notify("テストメッセージですよ！今度こそ！");
         return "ok";
     }
 
