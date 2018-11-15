@@ -14,13 +14,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.Random;
 
 public class LINENotifier implements RequestHandler<Map<String,Object>, String> {
     private static final String ep = "https://notify-api.line.me/api/notify";
 
     @Override
     public String handleRequest(Map<String,Object> input, Context context){
-        notify("テストメッセージですよ！今度こそ！");
+        notify(getNotifyMessage());
         return "ok";
     }
 
@@ -46,9 +47,31 @@ public class LINENotifier implements RequestHandler<Map<String,Object>, String> 
         return;
     }
 
+    private String getNotifyMessage(){
+        String subjects[] = {
+                "お父さんは",
+                "パパは"
+        };
+        String predicates[] = {
+                "今から帰ります！",
+                "今からかえります！",
+                "今から帰りますー",
+                "今からかえりますー",
+                "今でましたー",
+                "いまでました～",
+                "いまからかえるよー"
+        };
+
+        Random rnd = new Random();
+        String s = subjects[rnd.nextInt(subjects.length)];
+        String p = predicates[rnd.nextInt(predicates.length)];
+
+        return s + p;
+    }
     public static void main(String[] args){
         LINENotifier no = new LINENotifier();
-        no.notify("いまからお父さんが帰るわよん");
+        String s = no.getNotifyMessage();
+        no.notify(s);
         return;
     }
 }
